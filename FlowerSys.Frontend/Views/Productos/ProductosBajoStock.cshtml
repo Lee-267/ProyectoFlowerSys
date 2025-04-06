@@ -1,0 +1,32 @@
+﻿@model IEnumerable<FlowerSys.Frontend.Models.Productos>
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 400px;">
+        <div class="card-header text-center bg-warning text-dark">
+            <h5>Productos con Bajo Stock</h5>
+        </div>
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var producto in Model)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @producto.Nombre
+                            <span class="badge bg-danger text-white">@producto.Stock</span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="alert alert-info text-center">
+                    No hay productos con bajo stock.
+                </div>
+            }
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-secondary" onclick="window.history.back();">Cerrar</button>
+        </div>
+    </div>
+</div>

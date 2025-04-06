@@ -1,0 +1,90 @@
+﻿@model FlowerSys.Frontend.Models.LoginDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+    <title>FlowerSys</title>
+    <link rel="icon" href="~/img/Logo (4).png">
+    <link rel="stylesheet" href="@Url.Content("~/Content/alert.css")" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Fondo -->
+    <div class="background"></div>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <div class="content">
+            <h2><i class="bx bxl-firebase"></i> FlowerSys</h2>
+            <div class="text-ltr">
+                <h2>Bienvenido! <br>  </h2>
+                <span>A Nuestro Sistema  <br /> Optimiza tu Inventario, Florece tu Negocio</span>
+            </div>
+        </div>
+       
+        <!-- Caja de Login -->
+        <div class="logreg-box">
+            <div class="form-box login">
+                <form method="post" action="@Url.Action("Login", "Auth")">
+                    <h2>Inicio Session</h2>
+
+                    <!-- Mostrar mensaje de error si existe -->
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <script type="text/javascript">
+                            document.addEventListener("DOMContentLoaded", function () {
+                                document.body.style.overflow = "hidden";
+                                Swal.fire({
+                                    title: '¡Error!',
+                                    text: '@TempData["ErrorMessage"]',
+                                    imageUrl: '/img/Crendecialmala.jpg',
+                                    imageWidth: 150,
+                                    imageHeight: 150,
+                                    confirmButtonText: 'Aceptar',
+                                    confirmButtonColor: '#e74c3c',
+                                    timer: 4000,
+                                    timerProgressBar: true,
+                                    didClose: () => {
+                                        document.body.style.overflow = "";
+                                    }
+                                });
+                            });
+                        </script>
+                    }
+
+                    <!-- Campo Email -->
+                    <div class="input-box">
+                        <span class="icon">
+                            <i class="bx bxs-envelope"></i>
+                        </span>
+                        <input asp-for="Email" type="email" required>
+                        <label>Email</label>
+                    </div>
+
+                    <!-- Campo Contraseña -->
+                    <div class="input-box">
+                        <span class="icon">
+                            <i class="bx bxs-lock-alt"></i>
+                        </span>
+                        <input asp-for="Password" type="password" required>
+                        <label>Contraseña</label>
+                    </div>
+
+                    <button type="submit" class="btn">Ingresar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/lgn.js"></script>
+    <script src="~/Scripts/alert.js"></script>
+</body>
+
+</html>

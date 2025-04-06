@@ -1,0 +1,78 @@
+﻿/* Estilo general para contenedor flotante */
+.btn-flotante-container {
+    position: fixed;
+    z-index: 1050;
+    cursor: move;
+    transition: all 0.3s;
+}
+
+/* Posiciones específicas por ID */
+#btnFlotante {
+    left: 350px;
+    top: 10px;
+}
+
+#btnFlotanteBajoStock {
+    left: 720px;
+    top: 10px;
+}
+
+/* Estilo del botón */
+.btn-flotante {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+    /* Icono dentro del botón */
+    .btn-flotante i {
+        font-size: 1.5rem;
+        margin-right: 10px;
+    }
+
+/* Hover effect */
+#btnFlotante:hover,
+#btnFlotanteBajoStock:hover {
+    transform: translateY(-5px);
+    box-shadow: none;
+    filter: brightness(1.1); /* sutil brillo sin cambiar fondo */
+}
+
+
+@media (max-width: 768px) {
+    #btnFlotante,
+    #btnFlotanteBajoStock {
+       
+        left: auto !important;
+        right: 10px !important; /* Alineado a la derecha */
+        width: auto;
+    }
+
+    #btnFlotante {
+        top: 60px !important;
+    }
+
+    #btnFlotanteBajoStock {
+        top: 130px !important; /* espacio debajo del primero */
+    }
+
+    .btn-flotante .btn-text {
+        display: none !important; /* oculta texto */
+    }
+
+    .btn-flotante {
+        padding: 15px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+        .btn-flotante i {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+}

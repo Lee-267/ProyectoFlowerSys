@@ -1,0 +1,149 @@
+﻿@model IEnumerable<FlowerSys.Frontend.Models.UsuarioDto>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+@section Estilos {
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["AlertMessage"] != null)
+{
+    <script>
+        $(function () {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: '@TempData["AlertMessage"]',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        $(function () {
+            Swal.fire({
+                title: '¡Error!',
+                text: '@TempData["ErrorMessage"]',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    </script>
+}
+
+<p class="mt-4">
+    <a onclick="showInPopup('@Url.Action("Crear", "Usuario", new { id = 0 })', '')"
+       class="btn btn-sm text-white"
+       style="background-color: #4D6581; border-color: #4D6581;">
+        <i class="fa fa-plus-circle"></i> Nuevo Usuario
+    </a>
+</p>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Lista de Usuarios</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <!-- Aplicando la clase table-sm de Bootstrap para reducir el espaciado -->
+                        <table id="usuarios" class="table table-hover table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var usuario in Model)
+                                {
+                                    <tr>
+                                        <th scope="row">@usuario.Id</th>
+                                        <td>@Html.DisplayFor(modelItem => usuario.Nombre)</td>
+                                        <td>@Html.DisplayFor(modelItem => usuario.Email)</td>
+                                        <td>
+                                            @if (usuario.Activo)
+                                            {
+                                                <span class="badge bg-success">Activo</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactivo</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a onclick="showInPopup('@Url.Action("Editar", "Usuario", new { id = usuario.Id })', '')"
+                                               class="btn btn-outline-warning btn-sm">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+                                            @if (usuario.Activo)
+                                            {
+                                                <form asp-action="Desactivar" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="@usuario.Id" />
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fa fa-ban"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form asp-action="Activar" method="post" style="display:inline;">
+                                                    <input type="hidden" name="id" value="@usuario.Id" />
+                                                    <button type="submit" class="btn btn-outline-success btn-sm">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="MostrarModal" />
+<partial name="ModalEliminar" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/showmodal.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#usuarios').DataTable({
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+                "paging": true,  // Permite la paginación
+                "pageLength": 10,  // Establece la cantidad de filas por página
+                "ordering": true,  // Permite la ordenación
+                "searching": true,  // Permite la búsqueda
+                "lengthMenu": [5, 10, 15, 20], // Opciones de cantidad de registros por página
+            });
+        });
+    </script>
+
+    <script>
+        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Usuario/Delete/', false);
+    </script>
+}

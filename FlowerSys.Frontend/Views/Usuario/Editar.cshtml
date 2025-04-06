@@ -1,0 +1,61 @@
+﻿@model FlowerSys.Frontend.Models.UsuarioDto
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+    Layout = null;
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <h5>Editar</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Editar" method="post">
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Campo de Contraseña -->
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Campo de Confirmar Contraseña -->
+                <div class="form-group">
+                    <label>Confirmar Contraseña:</label>
+                    <input asp-for="ConfirmarPassword" type="password" class="form-control" />
+                    <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+                </div>
+
+
+
+                <!-- Campo de Perfil -->
+                <div class="form-group">
+                    <label>Perfil:</label>
+                    <select asp-for="Perfil" class="form-control">
+                        <option value="Admin">Administrador</option>
+                        <option value="Usuario">Usuario</option>
+                    </select>
+                    <span asp-validation-for="Perfil" class="text-danger"></span>
+                </div>
+
+                <!-- Botón de Enviar -->
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

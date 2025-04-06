@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sistema de Inventario</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.zephyr.min.css" />
+   
+
+    <script src="//code.tidio.co/wlftsfljoydbq62w2zs099g8pu57i4i2.js" async></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Ionicons CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons.js"></script>
+    <link rel="stylesheet" href="~/css/nav.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="icon" type="image/png" href="~/img/logoicon.png" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    @await RenderSectionAsync("Estilos", required: false)
+</head>
+<body>
+    <div class="container">
+        <!-- =============== Navigation ================ -->
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="/img/logoicon.png" class="logo">
+                    </a>
+                </li>
+                @{
+                    var username = Context.Session.GetString("Username");
+                    var token = Context.Session.GetString("Token");
+                }
+                @if (!string.IsNullOrEmpty(username))
+                {
+                    <span class="navbar-text text-white">Bienvenido, <strong>@username</strong></span>
+                }
+                <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="icon"><i class='bx bxs-report' style='color:#D3D3D3; font-size: 1.5rem;'></i></span><span class="title">Movimiento de Inventario</span></a></li>
+                <li><a asp-area="" asp-controller="Productos" asp-action="Index"><span class="icon"><i class='bx bx-box' style='color:#D3D3D3; font-size: 1.5rem;'></i></span><span class="title">Productos</span></a></li>
+                <li><a asp-area="" asp-controller="Usuario" asp-action="ListaUsuarios"><span class="icon"><i class='bx bx-user' style='color:#D3D3D3; font-size: 1.5rem;'></i></span><span class="title">Usuarios</span></a></li>
+                <li><a asp-area="" asp-controller="HistorialAccion" asp-action="Index"><span class="icon"><i class='bx bx-history' style='color:#D3D3D3; font-size: 1.5rem;'></i></span><span class="title">Historial</span></a></li>
+
+
+                @if (!string.IsNullOrEmpty(token))
+                {
+                    <li>
+                        <a href="javascript:void(0);" onclick="logout()">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="title">Sign Out</span>
+                        </a>
+                    </li>
+                }
+
+
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <!-- Aquí colocamos el botón de menú -->
+                <div class="toggle" id="menuToggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="content">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+    <!-- Botón Productos a Vencer -->
+    <div id="btnFlotante" class="btn-flotante-container">
+        <a href="@Url.Action("ProductosProximosAVencer", "Productos")" class="btn btn-danger btn-lg shadow btn-flotante">
+            <i class="fa fa-exclamation-triangle"></i> <span class="btn-text">Productos a Vencer</span>
+        </a>
+    </div>
+
+    <!-- Botón Productos con Bajo Stock -->
+    <div id="btnFlotanteBajoStock" class="btn-flotante-container">
+        <a href="@Url.Action("ProductosBajoStock", "Productos")" class="btn btn-warning btn-lg shadow btn-flotante">
+            <i class="fa fa-box-open"></i> <span class="btn-text">Productos con Bajo Stock</span>
+        </a>
+    </div>
+
+
+  
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="~/js/logout.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

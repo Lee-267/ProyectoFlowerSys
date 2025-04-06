@@ -1,0 +1,173 @@
+﻿@model IEnumerable<FlowerSys.Frontend.Models.Operacion>
+@{
+    ViewData["Title"] = "FlowerSys";
+}
+
+@section Estilos {
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}
+
+<style>
+    .btn-exportar-excel {
+        background-color: #198754 !important;
+        color: white !important;
+    }
+
+    .btn-exportar-pdf {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+
+    .btn-exportar-print {
+        background-color: #00a7c9 !important;
+        color: white !important;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Inventario</h5>
+                </div>
+                <div class="card-body">
+                    @if (TempData["WelcomeMessage"] != null)
+                    {
+                        <script type="text/javascript">
+                            document.addEventListener("DOMContentLoaded", function () {
+                                document.body.style.overflow = "hidden"; // Deshabilitar scroll mientras el modal esté abierto
+
+                                Swal.fire({
+                                    title: '¡Bienvenido!',
+                                    text: @Html.Raw(Json.Serialize(TempData["WelcomeMessage"])),
+                                    html: '<video width="200" height="200" autoplay loop muted><source src="/img/girasol.mp4" type="video/mp4"></video>',
+                                    confirmButtonText: 'Aceptar',
+                                    confirmButtonColor: '#6c5ce7',
+                                    timer: 4000,
+                                    timerProgressBar: true,
+                                    didClose: () => {
+                                        document.body.style.overflow = ""; // Habilitar scroll cuando se cierre el modal
+                                    }
+                                });
+                            });
+                        </script>
+                    }
+
+                    <!-- Añadido margen superior a la tabla -->
+                    <div class="table-responsive" style="margin-top: 80px;">
+                        <!-- Aplicando la clase table-sm de Bootstrap -->
+                        <table id="producto" class="table table-hover table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Id</th>
+                                        <td>@Html.DisplayFor(modelItem => item.Tipo)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Producto)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Stock)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- jQuery (necesario para DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Librerías de exportación -->
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#producto').DataTable({
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+                dom: "Bfrtip",
+                buttons: [
+                    //excel
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Exportar Excel',
+                        filename: 'Reporte Inventario',
+                        title: 'Movimientos Inventario',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5]  // Excluye la columna Id (columna 0)
+                        },
+                        className: 'btn-exportar-excel',
+                    },
+                    //pdf
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Exportar PDF',
+                        filename: 'Reporte Inventario',
+                        title: 'Inventario de Productos',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5],  // Excluye la columna Id (columna 0)
+                        },
+                        className: 'btn-exportar-pdf',
+                        customize: function (doc) {
+                            // Ajustar el contenido de la tabla para mejor visualización en PDF
+                            doc.content[1].table.widths = ['*', '*', '*', '*', '*'];  // Ajusta el ancho de las columnas
+                        }
+                    },
+                    //print
+                    {
+                        extend: 'print',
+                        title: 'Inventario de productos',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5],  // Excluye la columna Id (columna 0)
+                        },
+                        className: 'btn-exportar-print',
+                        customize: function (win) {
+                            $(win.document.body).find('table').addClass('table table-bordered table-striped');  // Añade clases de Bootstrap para mejorar la visualización
+                            $(win.document.body).find('table').css('font-size', '10pt');  // Ajusta el tamaño de la fuente
+                        }
+                    },
+                    //numero de paginas
+                    'pageLength'
+                ],
+                columnDefs: [
+                    {
+                        targets: [0], // Esto oculta la columna Id (columna 0)
+                        visible: false
+                    }
+                ]
+            });
+        });
+    </script>
+
+    <script>
+        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Productos/Delete/', false);
+    </script>
+}

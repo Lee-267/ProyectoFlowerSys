@@ -1,0 +1,6 @@
+@FlowerSys.Backend_HostAddress = http://localhost:5266
+
+GET {{FlowerSys.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

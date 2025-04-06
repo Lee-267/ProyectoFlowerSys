@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerSys.Backend", "FlowerSys.Backend\FlowerSys.Backend.csproj", "{F669A91B-1381-4D3D-8A46-2E24EF1388D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerSys.Frontend", "FlowerSys.Frontend\FlowerSys.Frontend.csproj", "{B89BC384-3125-47BD-9447-C5870A140F7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F669A91B-1381-4D3D-8A46-2E24EF1388D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F669A91B-1381-4D3D-8A46-2E24EF1388D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F669A91B-1381-4D3D-8A46-2E24EF1388D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F669A91B-1381-4D3D-8A46-2E24EF1388D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89BC384-3125-47BD-9447-C5870A140F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89BC384-3125-47BD-9447-C5870A140F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89BC384-3125-47BD-9447-C5870A140F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89BC384-3125-47BD-9447-C5870A140F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D065295-0519-41E1-B36A-D5AC942E9F04}
+	EndGlobalSection
+EndGlobal
