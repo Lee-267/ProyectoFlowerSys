@@ -2,21 +2,21 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copiar el archivo de proyecto y restaurar dependencias
-COPY FlowerSys.Backend.csproj .
+# Copiar los archivos del proyecto
+COPY *.csproj ./
 RUN dotnet restore
 
-# Copiar el resto del código y compilar
-COPY . .
+# Copiar el resto del código
+COPY . ./
 RUN dotnet publish -c Release -o /out
 
 # Etapa 2: runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /out .
 
-# Puerto por defecto para ASP.NET Core
+# Puerto que usará el contenedor
 EXPOSE 80
 
-# Comando de inicio
+# Comando para iniciar la API
 ENTRYPOINT ["dotnet", "FlowerSys.Backend.dll"]
